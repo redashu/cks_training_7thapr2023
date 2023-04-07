@@ -217,5 +217,29 @@ trivy image  quay.io/libpod/alpine
 ```
 
 
+### Storing report in text 
+
+```
+trivy image  quay.io/libpod/alpine  >bug.txt
+```
+
+### using trivy 
+
+```
+ trivy image --severity HIGH,CRITICAL --format json   quay.io/libpod/alpine 
+```
+
+### scan filesytem 
+
+```
+root@ip-172-31-90-26:~# trivy    fs   /var/lib/
+2023-04-07T05:13:01.941Z	INFO	Vulnerability scanning is enabled
+2023-04-07T05:13:01.941Z	INFO	Secret scanning i
+```
+
+### scan Task 
+
+<img src="scant.png">
+
 
 
