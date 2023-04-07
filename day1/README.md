@@ -81,6 +81,84 @@ namespaces                        ns           v1                               
 <img src="trivy.png">
 
 
+## Installing trivy and kube-bench 
+
+### 
+<img src="inst.png">
+
+### Installing trivy  On ubuntu 20.04 
+
+```
+ubuntu@ip-172-31-90-26:~$ whoami
+ubuntu
+ubuntu@ip-172-31-90-26:~$ sudo apt update 
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+9 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+
+========OR --
+
+
+ubuntu@ip-172-31-90-26:~$ sudo -i
+root@ip-172-31-90-26:~# apt update 
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+9 packages can be upgraded. Run 'apt list --upgradable' to see them.
+root@ip-172-31-90-26:~# 
+
+
+```
+
+### Link to use for installation 
+
+[click_here](https://aquasecurity.github.io/trivy/v0.39/)
+
+### Step 1
+
+```
+ubuntu@ip-172-31-90-26:~$ sudo apt-get install wget apt-transport-https gnupg lsb-release
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+
+```
+
+### Step 2 
+
+```
+ubuntu@ip-172-31-90-26:~$ wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+```
+
+### step 3 
+
+```
+ubuntu@ip-172-31-90-26:~$ echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb focal main
+```
+
+### Step 4 
+
+```
+ubuntu@ip-172-31-90-26:~$ sudo apt-get update && sudo apt-get install trivy  
+```
+
+### verify 
+
+```
+ubuntu@ip-172-31-90-26:~$ trivy -v
+Version: 0.39.0
+```
 
 
 
