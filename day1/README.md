@@ -62,5 +62,25 @@ namespaces                        ns           v1                               
 
 <img src="firewall.png">
 
+### aws security group for firewall 
+
+<img src="secg.png">
+
+### best way is Ingress controller based firewall
+
+<img src="ingress_firewall.png">
+
+## CIS  for everything -- Standard of security 
+
+### CIS for Kubernetes using -- kube-bench 
+
+<img src="kube-bench.png">
+
+### to scan security vulnerability of given things we can use trivy 
+
+<img src="trivy.png">
+
+
+
 
 
