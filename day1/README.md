@@ -48,5 +48,19 @@ namespaces                        ns           v1                               
 
 ```
 
+## K8s security primitives options 
+
+### Infra Level 
+
+<img src="infra.png">
+
+### control plane access 
+
+<img src="cp.png">
+
+### data plane firewall security 
+
+<img src="firewall.png">
+
 
 
