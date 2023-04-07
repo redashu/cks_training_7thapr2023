@@ -180,6 +180,42 @@ root@ip-172-31-90-26:~#
 
 ```
 
+## Trivy security vulnerability scanning 
+
+### scaning docker hub images
+
+```
+root@ip-172-31-90-26:~# trivy  image   mongo:latest  
+2023-04-07T04:59:34.823Z	INFO	Need to update DB
+2023-04-07T04:59:34.823Z	INFO	DB Repository: ghcr.io/aquasecurity/trivy-db
+2023-04-07T04:59:34.824Z	INFO	Downloading DB...
+36.42 MiB / 36.42 MiB [---------------------------------------------------------------------------] 100.00% 21.97 MiB p/s 1.9s
+2023-04-07T04:59:37.059Z	INFO	Vulnerability scanning is enabled
+2023-04-07T04:59:37.059Z	INFO	Secret scanning is enabled
+2023-04-07T04:59:37.059Z	INFO	If your scanning is slow, please try '--scanners vuln' to disable secret scanning
+2023-04-07T04:59:37.059Z	INFO	Please see also https://aquasecurity.github.io/trivy/v0.39/docs/secret/scanning/#recommendation for faster secret detection
+2023-04-07T04:59:51.740Z	INFO	Detected OS: ubuntu
+2023-04-07T04:59:51.740Z	INFO	Detecting Ubuntu vulnerabilities...
+2023-04-07T04:59:51.744Z	INFO	Number of language-specific files: 1
+2023-04-07T04:59:51.744Z	INFO	Detecting gobinary vulnerabilities...
+
+mongo:latest (ubuntu 22.04)
+
+Total: 35 (UNKNOWN: 0, LOW: 34, MEDIUM: 1, HIGH: 0, CRITICAL: 0)
+
+┌────────────────┬────────────────┬──────────┬──────────────────────────┬────────────────────┬──────────────────────────────────────────────────────────────┐
+│    Library     │ Vulnerability  │ Severity │    Installed Version     │   Fixed Version    │                            Title                             │
+├────────────────┼────────────────┼──────────┼──────────────────────────┼────────────────────┼──────────────────────────────────────────────────────────────┤
+│ bash           │ CVE-2022-3715  │ LOW      │ 5.1-6ubuntu1             │                    │ bash: a heap-buffer-overflow in valid_parameter_transform    │
+│                │                │          │                        
+```
+
+### scaning image of  NOn docker hub like Quay.io 
+
+```
+trivy image  quay.io/libpod/alpine
+```
+
 
 
 
