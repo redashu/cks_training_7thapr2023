@@ -160,5 +160,26 @@ ubuntu@ip-172-31-90-26:~$ trivy -v
 Version: 0.39.0
 ```
 
+### without installing trivy -- we can use docker image of trivy 
+
+```
+root@ip-172-31-90-26:~# docker  pull  aquasec/trivy:0.39.0 
+0.39.0: Pulling from aquasec/trivy
+63b65145d645: Pull complete 
+226473bcc6c2: Pull complete 
+4f32983f87f5: Pull complete 
+47501e0d9af6: Pull complete 
+Digest: sha256:31b722478cc12191968908453f0136febc90350a669f9f9a27a8bce8293a2509
+Status: Downloaded newer image for aquasec/trivy:0.39.0
+docker.io/aquasec/trivy:0.39.0
+root@ip-172-31-90-26:~# docker images
+REPOSITORY      TAG       IMAGE ID       CREATED      SIZE
+aquasec/trivy   0.39.0    c13e8b35e43f   5 days ago   207MB
+root@ip-172-31-90-26:~# 
+
+
+```
+
+
 
 
