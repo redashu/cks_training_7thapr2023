@@ -339,6 +339,119 @@ users:
 
 ```
 
+### Context to creating multile user profile in k8s cluster
+
+```
+root@ip-172-31-22-49:/opt/users# kubectl  config get-contexts 
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# kubectl config set-context my-developer --user=dev   --cluster kubernetes 
+Context "my-developer" created.
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# kubectl  config get-contexts 
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   
+          my-developer                  kubernetes   dev                
+root@ip-172-31-22-49:/opt/users# 
+
+
+```
+
+### switching context 
+
+```
+root@ip-172-31-22-49:/opt/users# kubectl config use-context   my-developer 
+Switched to context "my-developer".
+root@ip-172-31-22-49:/opt/users# kubectl  config get-contexts 
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+          kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   
+*         my-developer                  kubernetes   dev                
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# kubectl  get  nodes
+Error from server (Forbidden): nodes is forbidden: User "dev" cannot list resource "nodes" in API group "" at the cluster scope
+root@ip-172-31-22-49:/opt/users# 
+root@ip-172-31-22-49:/opt/users# kubectl  get  po
+Error from server (Forbidden): pods is forbidden: User "dev" cannot list resource "pods" in API group "" in the namespace "default"
+root@ip-172-31-22-49:/opt/users# kubectl  get ns
+Error from server (Forbidden): namespaces is forbidden: User "dev" cannot list resource "namespaces" in API group "" at the cluster scope
+
+```
+
+### RBAC in k8s 
+
+<img src="rbac.png">
+
+## Creating restric access to Dev user 
+
+### creating ns 
+
+```
+ kubectl create  ns  app-test 
+```
+
+### creating role 
+
+```
+root@ip-172-31-22-49:~# cat  role.yaml 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: app-access
+  namespace: app-test
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - create
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - create
+
+```
+
+### 
+
+```
+root@ip-172-31-22-49:~# kubectl apply -f role.yaml 
+role.rbac.authorization.k8s.io/app-access configured
+root@ip-172-31-22-49:~# 
+root@ip-172-31-22-49:~# kubectl get role -n app-test 
+NAME         CREATED AT
+app-access   2023-04-10T05:18:02Z
+root@ip-172-31-22-49:~# 
+
+```
+
+### creating role-binding -- role to dev user
+
+```
+kubectl create rolebinding  give-access --role=app-access  --user=dev -n app-test --dry-run=client -o yaml  >bind.yaml 
+root@ip-172-31-22-49:~# kubectl apply -f bind.yaml 
+rolebinding.rbac.authorization.k8s.io/give-access created
+root@ip-172-31-22-49:~# 
+root@ip-172-31-22-49:~# kubectl get rolebindings.rbac.authorization.k8s.io  -n app-test 
+NAME          ROLE              AGE
+give-access   Role/app-access   10s
+root@ip-172-31-22-49:~# kubectl get rolebindings  -n app-test 
+NAME          ROLE              AGE
+give-access   Role/app-access   18s
+```
+
+
 
 
 
