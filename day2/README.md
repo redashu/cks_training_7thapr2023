@@ -274,6 +274,71 @@ dev.crt  dev.csr  dev.key  request.yaml
 ```
 
 
+## adding. dev user in kubeconf file 
+
+### checking default kubeconfig 
+```
+root@ip-172-31-22-49:/opt/users# kubectl  config  view 
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://172.31.22.49:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+
+```
+
+### adding one more user -- dev 
+
+```
+root@ip-172-31-22-49:/opt/users# kubectl config set-credentials dev  --client-key=dev.key  --client-certificate=dev.crt 
+User "dev" set.
+
+```
+
+### checking 
+
+```
+root@ip-172-31-22-49:/opt/users# kubectl  config  view 
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://172.31.22.49:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: dev
+  user:
+    client-certificate: /opt/users/dev.crt
+    client-key: /opt/users/dev.key
+- name: kubernetes-admin
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+
+```
+
 
 
 
