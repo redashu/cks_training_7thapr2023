@@ -42,6 +42,29 @@ root@ip-172-31-22-49:/opt/tools# kube-bench version
 
 ```
 
+## doing vulnerability scan using kube-bench 
+
+```
+ kube-bench  run   --config-dir  /opt/tools/cfg/   --config  /opt/tools/cfg/config.yaml 
+ 
+ ===
+ == Summary node ==
+19 checks PASS
+1 checks FAIL
+3 checks WARN
+0 checks INFO
+
+[INFO] 5 Kubernetes Policies
+[INFO] 5.1 RBAC and Service Accounts
+[WARN] 5.1.1 Ensure that the cluster-admin role is only used where required (Manual)
+[WARN] 5.1.2 Minimize access to secrets (Manual)
+[WARN] 5.1.3 Minimize wildcard use in Roles and ClusterRoles (Manual)
+[WARN] 5.1.4 Minimize access to create pods (Manual)
+[WARN] 5.1.5 Ensure that default service accounts are not actively used. (Manual)
+[WARN] 5.1.6 Ensure that Service Account Tokens are only mounted where necessary (Manual)
+[INFO] 5.2 Pod Security Policies
+
+```
 
 
 
