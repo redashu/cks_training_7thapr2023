@@ -66,5 +66,25 @@ root@ip-172-31-22-49:/opt/tools# kube-bench version
 
 ```
 
+### checking config.yaml of kube-bench 
+
+```
+root@ip-172-31-22-49:~# cd /opt/tools/cfg/
+root@ip-172-31-22-49:/opt/tools/cfg# ls
+ack-1.0  aks-1.0  cis-1.5  cis-1.6  config.yaml  eks-1.0  gke-1.0  rh-0.7  rh-1.0
+root@ip-172-31-22-49:/opt/tools/cfg# vim config.yaml 
+root@ip-172-31-22-49:/opt/tools/cfg# tail config.yaml 
+    - "controlplane"
+    - "etcd"
+    - "policies"
+    - "managedservices"
+  "rh-1.0":
+    - "master"
+    - "node"
+    - "controlplane"
+
+```
+
+
 
 
