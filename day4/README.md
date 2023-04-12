@@ -250,6 +250,78 @@ root@ip-172-31-22-49:~/yamls# kubesec scan new.yaml
 
 ```
 
+## Privileged containers 
+
+<img src="cont.png">
+
+### check without privilege container 
+
+```
+root@ip-172-31-22-49:~# docker ps
+CONTAINER ID   IMAGE     COMMAND     CREATED         STATUS         PORTS     NAMES
+d4a090622627   alpine    "/bin/sh"   9 minutes ago   Up 9 minutes             c2
+root@ip-172-31-22-49:~# docker  exec -it c2 sh 
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03  
+          inet addr:172.17.0.3  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:13 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1006 (1006.0 B)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # id
+uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
+/ # ifconfig eth0  192.90.0.100
+ifconfig: SIOCSIFADDR: Operation not permitted
+/ # 
+/ # 
+/ # sysctl kernel.hostname=ashu
+sysctl: error setting key 'kernel.hostname': Read-only file system
+/ # exit
+
+```
+
+### creating a privilege container 
+
+```
+root@ip-172-31-22-49:~# docker run -tid --name c3 --privileged  alpine 
+85ffbd0cce706d5f8b2dbb5b25c8c01cdff923a7ca2c0058003cc4ff32de1cd9
+root@ip-172-31-22-49:~# docker  ps
+CONTAINER ID   IMAGE     COMMAND     CREATED          STATUS          PORTS     NAMES
+85ffbd0cce70   alpine    "/bin/sh"   3 seconds ago    Up 2 seconds              c3
+d4a090622627   alpine    "/bin/sh"   13 minutes ago   Up 13 minutes             c2
+root@ip-172-31-22-49:~# docker  exec -it c3  sh
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
+          inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:656 (656.0 B)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # ifconfig eth0 192.5.2.100
+/ # ifconfig 
+
+```
+
 
 
 
