@@ -190,5 +190,67 @@ status: {}
 
 ```
 
+### Introduction YAML file security scanner 
+
+<img src="secs.png">
+
+### Introduction to kubesec -- 
+
+[URL_docs](https://kubesec.io/)
+
+### Using kubesec
+
+### using docker container to scan yaml 
+
+```
+root@ip-172-31-22-49:~/yamls# docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < ng.yaml 
+[
+  {
+    "object": "Pod/hello.default",
+    "valid": true,
+    "message": "Passed with a score of 0 points",
+    "score": 0,
+    "scoring": {
+      "advise": [
+        {
+          "selector": "containers[] .securityContext .capabilities .drop",
+          "reason": "Reducing kernel capabilities available to a container limits its attack surface"
+        },
+        {
+          "selector": "containers[] .securityContext .capabilities .drop | index(\"ALL\")",
+          "reason": "Drop all capabilities and add only those required to reduce syscall attack surface"
+        },
+        {
+
+```
+
+### install kubesec 
+
+```
+ 668  wget https://github.com/controlplaneio/kubesec/releases/download/v2.13.0/kubesec_linux_amd64.tar.gz
+  669  ls
+  670  tar xvzf kubesec_linux_amd64.tar.gz 
+  671  ls
+  672  mv kubesec  /usr/bin/
+
+```
+
+### lets scan it 
+
+```
+CHANGELOG.md  LICENSE  README.md  kubesec_linux_amd64.tar.gz  new.yaml  ng.yaml  pod1.yaml
+root@ip-172-31-22-49:~/yamls# kubesec scan new.yaml 
+[
+  {
+    "object": "Pod/test.default",
+    "valid": true,
+    "fileName": "new.yaml",
+    "message": "Passed with a score of 0 points",
+    "score": 0,
+
+```
+
+
+
 
 
