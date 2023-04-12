@@ -157,3 +157,38 @@ command terminated with exit code 1
 root@ip-172-31-22-49:~/yamls# 
 ```
 
+### replace runasuser in container level 
+
+```
+root@ip-172-31-22-49:~/yamls# cat new.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: test
+  name: test
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+  containers:
+  - name: ashuc1
+    image: alpine
+    command: ["sh","-c","sleep 10000"]
+    securityContext:
+     runAsUser: 2000
+  - command:
+    - sleep
+    - "1000"
+    image: busybox
+    name: test
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+
+
