@@ -116,3 +116,44 @@ bin    dev    etc    hello  home   lib    lib64  proc   root   sys    tmp    tt 
 
 ```
 
+### POd with security context yaml 
+
+```
+root@ip-172-31-22-49:~/yamls# cat new.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: test
+  name: test
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+  containers:
+
+```
+
+### redeploy this and check it 
+
+```
+root@ip-172-31-22-49:~/yamls# kubectl get  po 
+NAME   READY   STATUS    RESTARTS   AGE
+test   1/1     Running   0          44s
+root@ip-172-31-22-49:~/yamls# 
+root@ip-172-31-22-49:~/yamls# kubectl exec -it test -- sh 
+~ $ 
+~ $ 
+~ $ id
+uid=1000 gid=3000 groups=3000
+~ $ cd /
+~ $ pwd
+/
+~ $ mkdir heyyy
+mkdir: can't create directory 'heyyy': Permission denied
+~ $ exit
+command terminated with exit code 1
+root@ip-172-31-22-49:~/yamls# 
+```
+
