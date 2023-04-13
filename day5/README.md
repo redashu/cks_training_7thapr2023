@@ -108,4 +108,63 @@ root@ip-172-31-22-49:~/yamls#  echo -n "HelloPass@123"  | base64
 SGVsbG9QYXNzQDEyMw==
 ```
 
+## Security context with nonroot user is not easy to implement 
+
+```
+root@ip-172-31-22-49:~/yamls# cat ng.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: hello
+  name: hello
+spec:
+  securityContext: # pod level
+   runAsUser: 10001
+   runAsGroup: 30001
+  containers:
+  - image: nginx
+    name: hello
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### if apply it 
+
+```
+root@ip-172-31-22-49:~/yamls# kubectl apply -f ng.yaml 
+pod/hello created
+root@ip-172-31-22-49:~/yamls# kubectl get po 
+NAME    READY   STATUS             RESTARTS     AGE
+hello   0/1     CrashLoopBackOff   1 (3s ago)   5s
+root@ip-172-31-22-49:~/yamls# kubectl get po 
+NAME    READY   STATUS   RESTARTS      AGE
+hello   0/1     Error    2 (26s ago)   28s
+root@ip-172-31-22-49:~/yamls# kubectl get po 
+
+```
+
+### Understanding problem 
+
+<img src="prob1.png">
+
+### Understanding ns , cgroup and syscalls
+
+<img src="sys.png">
+
+### Seccomp vs apparmor 
+
+<img src="appr.png">
+
+### apparmor profiles 
+
+<img src="profile.png">
+
+
 
