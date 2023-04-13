@@ -427,3 +427,10 @@ root@ip-172-31-21-222:/etc/apparmor.d# aa-status  | grep -i docker
 
 ```
 
+### doing in docker 
+
+```
+docker run -itd --name c3   --security-opt "apparmor=docker-nginx"     nginx 
+```
+
+
