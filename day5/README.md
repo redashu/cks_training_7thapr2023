@@ -205,3 +205,8 @@ root@ip-172-31-21-222:/etc/apparmor.d#
 ```
 
 
+### profile modes
+
+<img src="modes.png">
+
+
