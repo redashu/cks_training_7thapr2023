@@ -209,4 +209,126 @@ root@ip-172-31-21-222:/etc/apparmor.d#
 
 <img src="modes.png">
 
+### list profiles 
+
+```
+root@ip-172-31-21-222:~# aa-status 
+apparmor module is loaded.
+40 profiles are loaded.
+38 profiles are in enforce mode.
+   /snap/snapd/18596/usr/lib/snapd/snap-confine
+   /snap/snapd/18596/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/bin/man
+   /usr/lib/NetworkManager/nm-dhcp-cl
+```
+
+### testing apparmor with curl command 
+
+```
+root@ip-172-31-21-222:~# curl  ifconfig.me  -v
+*   Trying 34.160.111.145:80...
+* TCP_NODELAY set
+* Connected to ifconfig.me (34.160.111.145) port 80 (#0)
+> GET / HTTP/1.1
+> Host: ifconfig.me
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+
+```
+
+### creating profile for curl command 
+
+```
+root@ip-172-31-21-222:~# apt install apparmor-utils ---> will be giving aa-genprof 
+
+
+```
+
+### do ti 
+
+```
+root@ip-172-31-21-222:~# aa-genprof  /usr/bin/curl  
+Writing updated profile for /usr/bin/curl.
+Setting /usr/bin/curl to complain mode.
+
+Before you begin, you may wish to check if a
+profile already exists for the application you
+wish to confine. See the following wiki page for
+more information:
+https://gitlab.com/apparmor/apparmor/wikis/Profiles
+
+Profiling: /usr/bin/curl
+
+Please start the application to be profiled in
+another window and exercise its functionality now.
+
+Once completed, select the "Scan" option below in 
+order to scan the system logs for AppArmor events. 
+
+For each AppArmor event, you will be given the 
+opportunity to choose whether the access should be 
+allowed or denied.
+
+[(S)can system log for AppArmor events] / (F)inish
+Setting /usr/bin/curl to enforce mode.
+
+Reloaded AppArmor profiles in enforce mode.
+
+Please consider contributing your new profile!
+See the following wiki page for more information:
+https://gitlab.com/apparmor/apparmor/wikis/Profiles
+
+Finished generating profile for /usr/bin/curl.
+
+```
+
+### checking it 
+
+```
+root@ip-172-31-21-222:~# aa-status    | grep -i curl 
+   /usr/bin/curl
+root@ip-172-31-21-222:~# 
+
+
+```
+
+### doing with curl 
+
+### check curl 
+
+```
+root@ip-172-31-21-222:~# curl ifconfig.me -v
+* Could not resolve host: ifconfig.me
+* Closing connection 0
+curl: (6) Could not resolve host: ifconfig.me
+root@ip-172-31-21-222:~# 
+
+
+```
+
+### change profile mode to complain 
+
+```
+root@ip-172-31-21-222:~# aa-complain /usr/bin/curl 
+Setting /usr/bin/curl to complain mode.
+root@ip-172-31-21-222:~# 
+root@ip-172-31-21-222:~# 
+
+```
+
+### testing it again 
+
+```
+root@ip-172-31-21-222:~# curl ifconfig.me -v
+*   Trying 34.160.111.145:80...
+* TCP_NODELAY set
+* Connected to ifconfig.me (34.160.111.145) port 80 (#0)
+> GET / HTTP/1.1
+> Host: ifconfig.me
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting mul
+```
 
