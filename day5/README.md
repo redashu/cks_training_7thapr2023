@@ -166,5 +166,42 @@ root@ip-172-31-22-49:~/yamls# kubectl get po
 
 <img src="profile.png">
 
+## apparmor demo
+
+### apparmor status 
+
+```
+root@ip-172-31-21-222:~# systemctl status apparmor.service 
+● apparmor.service - Load AppArmor profiles
+     Loaded: loaded (/lib/systemd/system/apparmor.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Thu 2023-04-13 04:18:53 UTC; 5min ago
+       Docs: man:apparmor(7)
+             https://gitlab.com/apparmor/apparmor/wikis/home/
+   Main PID: 337 (code=exited, status=0/SUCCESS)
+
+```
+
+### configuration files 
+
+```
+root@ip-172-31-21-222:~# cd  /etc/apparmor
+apparmor/   apparmor.d/ 
+root@ip-172-31-21-222:~# cd  /etc/apparmor
+root@ip-172-31-21-222:/etc/apparmor# ls
+init  parser.conf
+
+```
+
+### location where apparmor is storing profiles 
+
+```
+root@ip-172-31-21-222:/etc/apparmor.d# cd /etc/apparmor.d/
+root@ip-172-31-21-222:/etc/apparmor.d# ls
+abstractions  force-complain  lsb_release      sbin.dhclient  usr.bin.man                      usr.sbin.rsyslogd
+disable       local           nvidia_modprobe  tunables       usr.lib.snapd.snap-confine.real  usr.sbin.tcpdump
+root@ip-172-31-21-222:/etc/apparmor.d# 
+
+
+```
 
 
