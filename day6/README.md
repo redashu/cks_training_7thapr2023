@@ -101,4 +101,39 @@ mkdir: can't create directory '/var/fine': Operation not permitted
 
 ```
 
+### we can disable syscall for particular container 
+
+```
+test@ip-172-31-21-222:~$ docker run -it --rm  --security-opt seccomp=unconfined  alpine  sh 
+/ # 
+/ # grep -i seccomp  /proc/1/status 
+Seccomp:	0
+Seccomp_filters:	0
+/ # exit
+
+```
+
+## In k8s -- if we want to implement custom seccomp then we have to download json file in every worker node 
+
+### Download custom json seccomp files 
+
+```
+root@ip-172-31-29-26:~# cd /var/lib/kubelet/
+root@ip-172-31-29-26:/var/lib/kubelet# ls
+config.yaml        device-plugins     memory_manager_state  plugins           pod-resources
+cpu_manager_state  kubeadm-flags.env  pki                   plugins_registry  pods
+root@ip-172-31-29-26:/var/lib/kubelet# 
+root@ip-172-31-29-26:/var/lib/kubelet# mkdir -p seccomp/profiles
+root@ip-172-31-29-26:/var/lib/kubelet# ls
+config.yaml        device-plugins     memory_manager_state  plugins           pod-resources  seccomp
+cpu_manager_state  kubeadm-flags.env  pki                   plugins_registry  pods
+root@ip-172-31-29-26:/var/lib/kubelet# cd  seccomp/profiles/
+root@ip-172-31-29-26:/var/lib/kubelet/seccomp/profiles# ls
+root@ip-172-31-29-26:/var/lib/kubelet/seccomp/profiles# wget https://k8s.io/examples/pods/security/seccomp/profiles/audit.json
+--2023-04-14 04:11:45--  https://k8s.io/examples/pods/security/seccomp/profiles/audit.json
+Resolving k8s.io (k8s.io)... 34.107.204.206, 2600:1901:0:26f3::
+Connecting to k8s.io (k8s.io)|34.107.204.206|:443... connected.
+``
+
+
 
