@@ -9,6 +9,11 @@
 https://github.com/redashu/CKS.git
 ```
 
+## Feedback 
+
+[click_here](https://www.metricsthatmatter.com/url/u.aspx?BF9D6E70A196018328)
+
+
 ### setup 2 node k8s 1.25 in ubuntu 20.04
 
 ## Steps to perform in both VM 
