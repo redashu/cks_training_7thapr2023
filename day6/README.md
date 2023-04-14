@@ -192,6 +192,50 @@ status: {}
 
 ```
 
+## Time for apparmor 
+
+```
+root@ip-172-31-21-222:~# systemctl status apparmor.service 
+● apparmor.service - Load AppArmor profiles
+     Loaded: loaded (/lib/systemd/system/apparmor.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Thu 2023-04-13 18:24:30 UTC; 10h ago
+       Docs: man:apparmor(7)
+             https://gitlab.com/apparmor/apparm
+             
+```
+
+### check list of profiles 
+
+```
+root@ip-172-31-21-222:~# aa-status 
+apparmor module is loaded.
+43 profiles are loaded.
+39 profiles are in enforce mode.
+   /snap/snapd/18596/usr/lib/snapd/snap-confine
+   /snap/snapd/18596/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/bin/man
+   /usr/lib/NetworkManager/nm-dhcp-client.action
+   /usr/lib/NetworkManager/nm-dhcp-helper
+   /usr/lib/connman/scripts/dhclient-script
+   /usr/lib/snapd/snap-confine
+   /usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/sbin/tcpdump
+   /{,usr/}sbin/dhclient
+   docker-default
+
+```
+
+### location where you can store profiles 
+
+```
+root@ip-172-31-21-222:~# cd  /etc/apparmor.d/
+root@ip-172-31-21-222:/etc/apparmor.d# ls
+abstractions       force-complain  nvidia_modprobe  tunables      usr.lib.snapd.snap-confine.real
+ashu-nginx-docker  local           root.run.sh      usr.bin.curl  usr.sbin.rsyslogd
+disable            lsb_release     sbin.dhclient    usr.bin.man   usr.sbin.tcpdump
+root@ip-172-31-21-222:/etc/apparmor.d# 
+
+```
 
 
 
