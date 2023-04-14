@@ -237,5 +237,40 @@ root@ip-172-31-21-222:/etc/apparmor.d#
 
 ```
 
+### creating sample profile of deny fs write 
+
+```
+root@ip-172-31-21-222:/etc/apparmor.d# ls
+abstractions       disable         lsb_release      sbin.dhclient  usr.bin.man                      usr.sbin.tcpdump
+ashu-nginx-docker  force-complain  nvidia_modprobe  tunables       usr.lib.snapd.snap-confine.real
+deny-write-ops     local           root.run.sh      usr.bin.curl   usr.sbin.rsyslogd
+root@ip-172-31-21-222:/etc/apparmor.d# cat  deny-write-ops 
+# Last Modified: Thu Apr 13 05:07:20 2023
+#include <tunables/global>
+
+profile apparmo-deny-filesystem  flags=(attach_disconnected) {
+  #include <abstractions/base>
+
+	file,
+	# deny write access /etc
+	deny /etc/* w, 
+
+}
+root@ip-172-31-21-222:/etc/apparmor.d# history | grep -i parse
+   75  apparmor_parser  -r -W  /etc/apparmor.d/ashu-nginx-docker 
+  202  history | grep -i parse
+root@ip-172-31-21-222:/etc/apparmor.d# aa-status  | grep -i apparmo-deny-filesystem
+root@ip-172-31-21-222:/etc/apparmor.d# apparmor_parser  -r -W  /etc/apparmor.d/deny-write-ops 
+root@ip-172-31-21-222:/etc/apparmor.d# aa-status  | grep -i apparmo-deny-filesystem
+   apparmo-deny-filesystem
+root@ip-172-31-21-222:/etc/apparmor.d# 
+
+```
+
+### use apparmor profiel 
+
+```
+
+```
 
 
