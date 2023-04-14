@@ -133,7 +133,65 @@ root@ip-172-31-29-26:/var/lib/kubelet/seccomp/profiles# wget https://k8s.io/exam
 --2023-04-14 04:11:45--  https://k8s.io/examples/pods/security/seccomp/profiles/audit.json
 Resolving k8s.io (k8s.io)... 34.107.204.206, 2600:1901:0:26f3::
 Connecting to k8s.io (k8s.io)|34.107.204.206|:443... connected.
-``
+```
+
+### using default runtime provided seccomp 
+
+```
+root@ip-172-31-22-49:~/yamls# cat seccomp.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashup1
+  name: ashup1
+spec:
+  securityContext:
+   seccompProfile:
+    type: RuntimeDefault
+  containers:
+  - command:
+    - sleep
+    - "1000"
+    image: alpine
+    name: ashup1
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### if you want to use custom seccomp profiles 
+
+```
+root@ip-172-31-22-49:~/yamls# cat customsec.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashup1
+  name: ashup1
+spec:
+  securityContext:
+   seccompProfile:
+    type: Localhost # check on worker node where pod got scheduled 
+    localhostProfile: profiles/audit.json 
+  containers:
+  - command:
+    - sleep
+    - "1000"
+    image: alpine
+    name: ashup1
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
 
 
 
