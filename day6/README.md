@@ -86,3 +86,19 @@ uid=0(root) gid=0(root) groups=0(root)
 
 ```
 
+### using custom profile for seccomp 
+
+```
+test@ip-172-31-21-222:~$ docker run -it --rm  --security-opt seccomp=/home/test/ashu/custom.json  alpine  sh 
+/ # 
+/ # id
+uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
+/ # mkdir  /okk
+mkdir: can't create directory '/okk': Operation not permitted
+/ # mkdir  /var/fine
+mkdir: can't create directory '/var/fine': Operation not permitted
+/ # exit
+
+```
+
+
