@@ -1,5 +1,14 @@
 # cks_training_7thapr2023
 
+### GIthu profile ashutoshh 
+
+[click_here](https://github.com/redashu/CKS.git)
+====
+
+```
+https://github.com/redashu/CKS.git
+```
+
 ### setup 2 node k8s 1.25 in ubuntu 20.04
 
 ## Steps to perform in both VM 
